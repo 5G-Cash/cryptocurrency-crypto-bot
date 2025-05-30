@@ -1,3 +1,5 @@
+Here's the complete updated file content with the Discord.js v14 changes merged in while preserving all other functionality:
+
 //var config = require('../config.js');
 try{
     var config = process.cwd()+'/config.js';
@@ -19,8 +21,16 @@ var wallet = require("./wallet.js");
 // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 /* ------------------------------------------------------------------------------ */
 
-const { Client } = require('discord.js');
-const client = new Client();
+const { Client, GatewayIntentBits } = require('discord.js');
+const client = new Client({ 
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.GuildMembers
+    ]
+});
 
 // A lightweight JavaScript date library for parsing, validating, manipulating, and formatting dates.
 const moment = require('moment-timezone');
@@ -488,7 +498,7 @@ module.exports = {
                     return false;
                 };
                 chat.chat_reply(msg,'embed',false,messageType,config.colors.success,false,config.messages.drop.title,[[config.messages.drop.phrase,'```'+phrase+'```',false],[config.messages.drop.amount,Big(dropAmount).toFixed(8)+' '+config.wallet.coinSymbolShort,true],[config.messages.drop.seconds,dropTime,true]],config.messages.drop.dropPhraseReply,false,false,false,false);
-                const phraseCollector = msg.channel.createMessageCollector(phraseFilter, {time: dropTime*1000});
+                const phraseCollector = msg.channel.createMessageCollector({ filter: phraseFilter, time: dropTime*1000 });
                 phraseCollector.on('collect', m => {
                     if(!m.author.bot){ // If its not a bot
                         m.react(config.bot.dropBotReactIcon);
@@ -623,7 +633,7 @@ module.exports = {
                     const reactFilter = (reaction, user) => {
                         return reaction.emoji.name === config.bot.dropReactIcon && user.id != reactCollectorMessage.author.id;
                     };
-                    const reactCollector = reactCollectorMessage.createReactionCollector(reactFilter, { time: dropTime*1000 });
+                    const reactCollector = reactCollectorMessage.createReactionCollector({ filter: reactFilter, time: dropTime*1000 });
                     reactCollector.on('collect', (reaction, reactionCollector) => {
                         reaction.users.forEach(function(value, key) {
                             if(key != reactCollectorMessage.author.id){  // If its not a bot
@@ -701,7 +711,6 @@ module.exports = {
                                 }
                             }
                             // Return success message
-                            //msg,replyType,replyUsername,senderMessageType,replyEmbedColor,replyAuthor,replyTitle,replyFields,replyDescription,replyFooter,replyThumbnail,replyImage,replyTimestamp
                             chat.chat_reply(msg,'embed',userName,messageType,config.colors.success,false,config.messages.drop.titleSent,[[config.messages.drop.amount,Big(dropAmount).toFixed(8)+' '+config.wallet.coinSymbolShort,true],[config.messages.drop.rounded,Big(valueToRemoveFromUser).toFixed(8)+' '+config.wallet.coinSymbolShort,true],[config.messages.drop.users,dropCollectedUsers.length,true],[config.messages.drop.each,Big(dropSingleUserAmount).toFixed(8)+' '+config.wallet.coinSymbolShort,true]],config.messages.drop.description,false,false,false,false);
                             // List rained users
                             var listUsers = '';
