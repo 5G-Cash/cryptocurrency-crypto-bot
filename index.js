@@ -42,6 +42,11 @@ var cooldownTimes = {}; // Cooldown timers by user, id and timestamp
 /* Latest active users */
 var activeUsers = []; 
 
+/* Whitelisted interfacable bots */
+var whitelistedBots = [
+  "918146218511708260" //RoyalSwap
+];
+
 /* BOT ENABLE/DISABLE */
 var botEnabled = 1;
 
@@ -86,8 +91,8 @@ client.on('messageCreate', msg => {
   if(userID == config.bot.botID) 
     return;
 
-  // Only check if its not other bot
-  if(userBot) 
+  // Only check if its a normal user, or the bot is in the whitelist
+  if(userBot && whitelistedBots.indexOf(msg.author.id) == -1) 
     return;
 
   // Save and delete active users by time
