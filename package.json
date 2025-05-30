@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "node index.js"
+    "dev": "node index.js",
+    "webapp": "vite webapp"
   },
   "bin": {
     "cryptobot": "./index.js"
@@ -29,7 +30,21 @@
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
     "mysql2": "^3.6.1",
-    "request-promise": "^4.2.6"
+    "request-promise": "^4.2.6",
+    "@vitejs/plugin-react": "^4.0.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.16.0",
+    "vite": "^4.4.9",
+    "@tanstack/react-query": "^4.35.3",
+    "axios": "^1.5.0",
+    "tailwindcss": "^3.3.3",
+    "postcss": "^8.4.30",
+    "autoprefixer": "^10.4.15",
+    "jsonwebtoken": "^9.0.2",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
   },
   "engines": {
     "node": ">=16.11.0"
