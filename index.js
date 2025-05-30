@@ -24,11 +24,15 @@ const client = new Client({
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.DirectMessages,
-    GatewayIntentBits.GuildMembers
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildPresences
   ],
   partials: [
     Partials.Channel,
-    Partials.Message
+    Partials.Message,
+    Partials.User,
+    Partials.GuildMember,
+    Partials.Reaction
   ]
 });
 global.globalClient = client;
@@ -88,11 +92,8 @@ client.on('messageCreate', msg => {
 
   // Save and delete active users by time
   activeUsers[userID] = currentTimestamp;
-  //console.log('Added/Updated -> '+userID+' t: '+currentTimestamp);
-  // -> and remove inactive if no more in timeframe
   for (var key in activeUsers) {
     if(activeUsers[key] < (currentTimestamp-config.bot.activeUserTime)){
-      //console.log('deleted: '+activeUsers[key]+' - id: '+ key);
       delete activeUsers[key];
     }
   }
@@ -145,15 +146,13 @@ if(messageContent.startsWith(config.bot.commandPrefix)){
     if(config.bot.adminMode && userRole != 3){
       if(messageType !== 'dm')
         msg.delete();
-        //msg,replyType,replyUsername,senderMessageType,replyEmbedColor,replyAuthor,replyTitle,replyFields,replyDescription,replyFooter,replyThumbnail,replyImage,replyTimestamp
         chat.chat_reply(msg,'embed',userName,messageType,config.colors.warning,false,config.messages.title.warning,false,config.messages.adminMode,false,false,false,false);
       return;
     }
 
-    // Save and check cooldown timer but ignor admins/mods/vips  ˇˇ
+    // Save and check cooldown timer but ignor admins/mods/vips
     if(userRole < 1){ 
       if(cooldownTimes[userID] > (currentTimestamp-config.bot.cooldownTime) && cooldownTimes[userID] !== undefined){
-        //msg,replyType,replyUsername,senderMessageType,replyEmbedColor,replyAuthor,replyTitle,replyFields,replyDescription,replyFooter,replyThumbnail,replyImage,replyTimestamp
         chat.chat_reply(msg,'embed',userName,messageType,config.colors.warning,false,config.messages.title.warning,false,config.messages.cooldown,false,false,false,false);
         return;
       }
@@ -162,7 +161,6 @@ if(messageContent.startsWith(config.bot.commandPrefix)){
 
     // Check if direct messages to bot are disabled
     if(!config.bot.allowDM && messageType === 'dm'){ 
-      //msg,replyType,replyUsername,senderMessageType,replyEmbedColor,replyAuthor,replyTitle,replyFields,replyDescription,replyFooter,replyThumbnail,replyImage,replyTimestamp
       chat.chat_reply(msg,'embed',userName,messageType,config.colors.error,false,config.messages.title.error,false,config.messages.DMDisabled,false,false,false,false);
       return;
     }
@@ -172,7 +170,6 @@ if(messageContent.startsWith(config.bot.commandPrefix)){
       // Delete message if not direct message and delete
       if(messageType !== 'dm')
         msg.delete();
-      //msg,replyType,replyUsername,senderMessageType,replyEmbedColor,replyAuthor,replyTitle,replyFields,replyDescription,replyFooter,replyThumbnail,replyImage,replyTimestamp
       chat.chat_reply(msg,'embed',userName,messageType,config.colors.error,false,config.messages.title.error,false,config.messages.notValidCommand,false,false,false,false);
       return;
     }
@@ -199,17 +196,6 @@ if(messageContent.startsWith(config.bot.commandPrefix)){
     // Cut it to max lengh and remove space on start and end
     dropPhrase = dropPhrase.substring(0,config.bot.dropMessageMaxLength);
     dropPhrase = dropPhrase.trim();
-
-    /// DISABLED AND NOT USED AND OVERWRITTEN ON RAIN FUNCTION // Check if command is rain and get user list from discord server
-    var rainCheck = messageContent.split(/ +/);
-    if(rainCheck[0].substr(1) === 'rain' && rainCheck[1] === 'all' || rainCheck[1] === 'random'){
-      // This crashes the bot if there are to many discord users and multiple channel the bot is in so changed to grab random users from database with maxRainRandomUsers from config as more is not needed because rain all just grabs total count and credits all users
-      /*if(client.users){
-        Array.from(client.users.filter(user => user.bot == false).values()).forEach(element => {
-          serverUsers.push(element.id);
-        });
-      }*/
-    }
 
     // Check if command is on ignor list
     var ignorCheck = recievedCommand[0].substr(1);
