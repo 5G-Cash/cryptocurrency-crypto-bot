@@ -11,15 +11,26 @@ var chat = require("./functions/chat.js");
 var check = require("./functions/check.js");
 var command = require("./functions/command.js");
 var cron = require("./functions/cron.js");
-// var storage = require("./functions/storage.js"); 
 var log = require("./functions/log.js");
 
 /* ------------------------------------------------------------------------------ */
 // // // // // // // // // // // // // // // // // // // // // // // // // // // //
 /* ------------------------------------------------------------------------------ */
 
-const { Client } = require('discord.js');
-const client = new Client();
+const { Client, GatewayIntentBits, Partials, ActivityType } = require('discord.js');
+const client = new Client({ 
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.GuildMembers
+  ],
+  partials: [
+    Partials.Channel,
+    Partials.Message
+  ]
+});
 global.globalClient = client;
 
 var cooldownTimes = {}; // Cooldown timers by user, id and timestamp
@@ -43,14 +54,19 @@ process.on('unhandledRejection', error => console.error('Uncaught Promise Reject
 
 client.on('ready', () => {
   log.log_write_console(config.messages.botStarted + ` ${client.user.tag}!`);
-  client.user.setPresence({ status: 'online', game: { name: config.bot.gameMessage } }); 
+  client.user.setPresence({ 
+    activities: [{ 
+      name: config.bot.gameMessage,
+      type: ActivityType.Playing
+    }],
+    status: 'online'
+  }); 
   if(config.bot.setNewAvatar){
     client.user.setAvatar(config.bot.avatar); 
   } 
 });
 
-client.on('message', msg => {
-  
+client.on('messageCreate', msg => {
   var userID = msg.author.id;
   var userName = msg.author;
   var messageFull = msg;
