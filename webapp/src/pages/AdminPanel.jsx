@@ -1,15 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
+import { mockAdminData } from '../mocks/data'
 
 function AdminPanel() {
-  const { data: stats, isLoading } = useQuery(['admin-stats'], async () => {
-    const { data } = await axios.get('/api/admin/stats')
-    return data
-  })
-
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
+  const { data: stats } = useQuery(['admin-stats'], 
+    () => Promise.resolve(mockAdminData),
+    { initialData: mockAdminData }
+  )
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -57,7 +53,9 @@ function AdminPanel() {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{tx.username}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{tx.type}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{tx.amount}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{new Date(tx.datetime).toLocaleDateString()}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {new Date(tx.datetime).toLocaleDateString()}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -93,5 +91,3 @@ function AdminPanel() {
     </div>
   )
 }
-
-export default AdminPanel

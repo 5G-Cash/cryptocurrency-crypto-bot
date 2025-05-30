@@ -1,18 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
-import { useAuth } from '../hooks/useAuth'
+import { mockWalletData } from '../mocks/data'
 
 function Dashboard() {
-  const { user } = useAuth()
-
-  const { data: walletData, isLoading } = useQuery(['wallet', user.id], async () => {
-    const { data } = await axios.get(`/api/wallet/${user.id}`)
-    return data
-  })
-
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
+  const { data: walletData } = useQuery(['wallet'], 
+    () => Promise.resolve(mockWalletData),
+    { initialData: mockWalletData }
+  )
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -52,7 +45,9 @@ function Dashboard() {
                   <tr key={tx.id}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{tx.type}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{tx.amount}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{new Date(tx.datetime).toLocaleDateString()}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {new Date(tx.datetime).toLocaleDateString()}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -63,5 +58,3 @@ function Dashboard() {
     </div>
   )
 }
-
-export default Dashboard

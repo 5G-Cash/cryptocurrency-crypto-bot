@@ -1,9 +1,15 @@
 import { create } from 'zustand'
-import axios from 'axios'
+
+// Mock user for development
+const mockUser = {
+  id: '123456789',
+  username: 'TestUser',
+  isAdmin: true
+}
 
 const useAuthStore = create((set) => ({
-  isAuthenticated: false,
-  user: null,
+  isAuthenticated: true, // Auto-authenticated for development
+  user: mockUser,
   setAuth: (userData) => set({ isAuthenticated: true, user: userData }),
   logout: () => set({ isAuthenticated: false, user: null }),
 }))
@@ -12,13 +18,8 @@ export function useAuth() {
   const { isAuthenticated, user, setAuth, logout } = useAuthStore()
 
   const login = async (code) => {
-    try {
-      const { data } = await axios.post('/api/auth/discord', { code })
-      setAuth(data)
-    } catch (error) {
-      console.error('Login failed:', error)
-      throw error
-    }
+    // Mock login for development
+    setAuth(mockUser)
   }
 
   return {
