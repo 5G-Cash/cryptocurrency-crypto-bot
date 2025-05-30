@@ -91,3 +91,5 @@ function AdminPanel() {
     </div>
   )
 }
+
+export default AdminPanel
