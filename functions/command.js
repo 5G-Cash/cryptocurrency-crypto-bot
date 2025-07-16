@@ -1,4 +1,4 @@
-Here's the complete updated file content with the Discord.js v14 changes merged in while preserving all other functionality:
+// Here's the complete updated file content with the Discord.js v14 changes merged in while preserving all other functionality:
 
 //var config = require('../config.js');
 try{
