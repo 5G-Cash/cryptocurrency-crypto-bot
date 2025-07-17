@@ -16,8 +16,8 @@ function App() {
     <Layout>
       <Routes>
         <Route path="/" element={<Dashboard />} />
-        {user?.isAdmin && <Route path="/admin\" element={<AdminPanel />} />}
-        <Route path="*" element={<Navigate to="/\" replace />} />
+        {user?.isAdmin && <Route path="/admin" element={<AdminPanel />} />}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Layout>
   )

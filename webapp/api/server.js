@@ -4,6 +4,7 @@ const cors = require('cors')
 const mysql = require('mysql2/promise')
 const jwt = require('jsonwebtoken')
 const axios = require('axios')
+const config = require("../../config.js");
 
 const app = express()
 app.use(cors())
