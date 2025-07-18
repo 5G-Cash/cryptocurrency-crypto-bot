@@ -28,6 +28,10 @@ npm install
 cp .env.example .env
 ```
 
+Generate a random value for `JWT_SECRET` and add it to `.env`. The previous
+`jwt_secret.txt` file has been removed from the repository; secrets should be
+stored using environment variables only.
+
 Edit the `.env` file with your configuration:
 
 - `VITE_DISCORD_CLIENT_ID`: Your Discord application client ID
@@ -64,6 +68,31 @@ npm run build
 ```bash
 NODE_ENV=production node api/server.js
 ```
+4. Configure a process manager such as **PM2** to keep the API running:
+```bash
+pm2 start api/server.js --name crypto-bot-api
+pm2 save
+```
+
+5. Serve the contents of `dist/` using a web server (e.g. **Nginx**). A minimal
+   Nginx configuration:
+```nginx
+server {
+    listen 80;
+    server_name example.com;
+    root /path/to/webapp/dist;
+    location /api/ {
+        proxy_pass http://localhost:3001/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+```
+
+6. Obtain a TLS certificate (e.g. via **Let's Encrypt**) and enable HTTPS on the
+   reverse proxy to encrypt all traffic between clients and the server.
+
+7. Ensure the required environment variables are set on the host (see `.env.example`).
 
 ## Security Notes
 
