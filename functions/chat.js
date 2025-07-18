@@ -31,7 +31,7 @@ module.exports = {
                 return  replyDescription + ' ' + replyUsername;
             }
         }
-        if(replyType == 'embed' || 'private'){
+        if(replyType === 'embed' || replyType === 'private'){
             var embed = new EmbedBuilder();
             // Set embed color
             if(replyEmbedColor){

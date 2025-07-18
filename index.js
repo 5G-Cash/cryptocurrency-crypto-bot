@@ -141,11 +141,11 @@ if(messageContent.startsWith(config.bot.commandPrefix)){
     }
 
     // If its not a dm message check if its a valid channel for commands
-    if(config.bot.allowAllChannels == "true")
+    if(!config.bot.allowAllChannels &&
+        !check.check_respond_channel(channelID) &&
+        messageType !== 'dm'){
         return;
-    else if(config.bot.allowAllChannels == false)
-        if(!check.check_respond_channel(channelID) && messageType !== 'dm')
-        return;
+    }
 
     // Check if admin mode is enabled and only allow commands from admins
     if(config.bot.adminMode && userRole != 3){

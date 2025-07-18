@@ -28,19 +28,19 @@ module.exports = {
         "minDropValue": 0.00000001, // Minimum value for drop 
     }, 
     "mysql":{ // Dont forget to import the empty database before starting the bot
-        "dbHost": "XXX", // Database server
-        "dbName": "XXX", // Database name
-        "dbUser": "XXX", // Database user
-        "dbPassword": "XXX", // Database password
-        "dbPort": 3306, // Database port
+        "dbHost": process.env.DB_HOST || "XXX", // Database server
+        "dbName": process.env.DB_NAME || "XXX", // Database name
+        "dbUser": process.env.DB_USER || "XXX", // Database user
+        "dbPassword": process.env.DB_PASSWORD || "XXX", // Database password
+        "dbPort": process.env.DB_PORT || 3306, // Database port
         "connectionLimit": 20, // Database maximal database pool connections
         "waitForConnections": true, // If true, the pool will queue the connection request and call it when one becomes available
     },
     "wallet":{
-        "server": "127.0.0.1", // Wallet server
-        "user": "XXX", // Wallet username
-        "password": "XXX", // Wallet password
-        "port": "1234", // Wallet port
+        "server": process.env.WALLET_SERVER || "127.0.0.1", // Wallet server
+        "user": process.env.WALLET_USER || "XXX", // Wallet username
+        "password": process.env.WALLET_PASSWORD || "XXX", // Wallet password
+        "port": process.env.WALLET_PORT || "1234", // Wallet port
         // TODO ENCRYPTION KEY FOR WALLET
         "coinSymbol": "Coin (CoinSymbol)", // Coin name
         "coinSymbolShort": "Symbol", // Coin name
