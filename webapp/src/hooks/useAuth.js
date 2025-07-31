@@ -1,25 +1,36 @@
 import { create } from 'zustand'
 
-// Mock user for development
-const mockUser = {
-  id: '123456789',
-  username: 'TestUser',
-  isAdmin: true
-}
-
+// Authentication store
 const useAuthStore = create((set) => ({
-  isAuthenticated: true, // Auto-authenticated for development
-  user: mockUser,
+  // Start unauthenticated until the OAuth flow completes
+  isAuthenticated: false,
+  user: null,
   setAuth: (userData) => set({ isAuthenticated: true, user: userData }),
-  logout: () => set({ isAuthenticated: false, user: null }),
+  logout: () => {
+    localStorage.removeItem('token')
+    set({ isAuthenticated: false, user: null })
+  }
 }))
 
 export function useAuth() {
   const { isAuthenticated, user, setAuth, logout } = useAuthStore()
 
   const login = async (code) => {
-    // Mock login for development
-    setAuth(mockUser)
+    try {
+      const res = await fetch('/api/auth/discord', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code })
+      })
+
+      if (!res.ok) throw new Error('Authentication failed')
+
+      const data = await res.json()
+      localStorage.setItem('token', data.token)
+      setAuth(data.user)
+    } catch (err) {
+      console.error('Login error:', err)
+    }
   }
 
   return {
