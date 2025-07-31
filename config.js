@@ -25,7 +25,8 @@ module.exports = {
         "dropMinSeconds": 10, // Drop message min reply time in seconds
         "dropMaxSeconds": 300, // Drop message max reply time in seconds
         "dropMinUsers": 1, // Users minimum needed for drop
-        "minDropValue": 0.00000001, // Minimum value for drop 
+        "dropMessageMaxLength": 40, // Max length for the drop phrase
+        "minDropValue": 0.00000001, // Minimum value for drop
     }, 
     "mysql":{ // Dont forget to import the empty database before starting the bot
         "dbHost": process.env.DB_HOST || "XXX", // Database server
@@ -56,7 +57,7 @@ module.exports = {
         "withdrawalsHistoryDisplayCount": 5, // How many withdrawals get shown on withdrawal history command !! Max value 5 !!
         "paymentHistoryCoun": 7, // How many payments get shown on withdrawals payments command !! Max value 7 !!
         "explorerLinkAddress": "https://explorer.link/#/address/", // Explorer link address for addresses
-        "explorerLinkTransaction": "ttps://explorer.link/#/tx/", // Explorer link transaction
+        "explorerLinkTransaction": "https://explorer.link/#/tx/", // Explorer link transaction
         "transactionFee": 0.01, // Fee taken for a transaction a user makes - Change value also on help command
         "minWithdrawalValue": 0.00000001, // Minimum value for withdrawal
         "minTipValue": 0.00000001, // Minimum value for tip 
