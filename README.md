@@ -22,7 +22,7 @@ Convert balance to normal balance (Only once within 24 hours if no stake/unstake
 Tip a user from Discord.  
 ```+rain <all/online/random> <amount> <userCount>```  
 (all) Tip amount divided by total user count. / (online) Tip amount divided by active users. / (random) Tip amount divided by random user count.
-```+drop <phrase/react> <amount> <timeInSeconds> <30 letter phrase>```  
+```+drop <phrase/react> <amount> <timeInSeconds> <40 letter phrase>```
 (phrase) Send coins to all users that reply with the asked phrase. / (react) Send coins to all users that react with the asked icon.  
 ```+history <deposits/withdrawals/payments> | +history <d/w/p>```  
 (deposits) Show your latest deposits. / (withdrawals) Show your latest withdrawals. / (payments) Show your latest payments. 
