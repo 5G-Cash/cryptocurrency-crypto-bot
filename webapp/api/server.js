@@ -76,6 +76,9 @@ app.post('/auth/discord', async (req, res) => {
 // User wallet endpoints
 app.get('/wallet/:userId', auth, async (req, res) => {
   try {
+    if (!req.user.isAdmin && req.user.id !== req.params.userId) {
+      return res.status(403).json({ error: 'Forbidden' })
+    }
     const [user] = await pool.query('SELECT * FROM user WHERE discord_id = ?', [req.params.userId])
     if (!user.length) throw new Error('User not found')
 
