@@ -73,9 +73,3 @@ walletnotify=/path/to/your/bot/folder/transaction.sh %s
 3. Enalbe staking options on the config file  
 4. Check if transactionns are coming in to database
 
-## Projects using the bot - Feel free to contact me to get added
-- Limitless (VIP) - Discord: https://discord.gg/wtz6QYX - Website: http://vip.limitlessvip.co.za/
-- BARE Coin (BARE) - Discord: https://discord.gg/xmQbzNH - Website: https://bare.network/
-- Coin Pool Services - Discord: https://discord.gg/eWB5z2E - Website: https://coinpoolservices.com/
-- Beyondcoin (BYND) - Discord: https://discord.gg/j3BUcJU - Website: https://beyondcoin.io
-- Shroud Protocol (SHROUD) - Discord: https://discord.gg/7U8chR4 - Website: https://shroudx.org
